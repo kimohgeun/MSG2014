@@ -1,0 +1,84 @@
+package com.example.test;
+
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+
+
+class Sound
+{
+	MediaPlayer mPlayer;
+	
+	Sound(Context context,int id)
+	{
+		mPlayer = MediaPlayer.create(context,id);
+	}
+	void play()
+	{
+		mPlayer.seekTo(0);;
+		mPlayer.start();
+	}
+}
+
+
+public class MainActivity extends Activity 
+{
+	Button mbtnC;
+	Button mbtnD;
+	
+	Sound mSoundC;
+	Sound mSoundD;
+   
+	@Override
+    public void onCreate(Bundle savedInstanceState) 
+	{
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        mSoundC = new Sound(this, R.raw.ccode);
+        mSoundD = new Sound(this, R.raw.dcode);
+        
+        mbtnC = (Button)findViewById(R.id.BTN_C);
+        mbtnD = (Button)findViewById(R.id.BTN_D);
+        
+        mbtnC.setOnClickListener(onClickCode);
+        mbtnD.setOnClickListener(onClickCode);
+        
+    }
+      
+
+	public View.OnClickListener onClickCode = new View.OnClickListener()
+	{
+			public void onClick(View v)
+			{
+			/*
+			MediaPlayer player;
+			
+			player = MediaPlayer.create(MainActivity.this,R.raw.ccode);
+			player.start();
+			}
+			*/
+	
+				mSoundC.play();
+				mSoundD.play();
+	}
+	};
+   
+	
+	
+	
+	
+	
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    
+}
