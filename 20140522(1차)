@@ -51,23 +51,24 @@ public class MainActivity extends Activity
     }
       
 
-	public View.OnClickListener onClickCode = new View.OnClickListener()
-	{
-			public void onClick(View v)
-			{
-			/*
-			MediaPlayer player;
+ 	mbtnC.setOnClickListener(new View.OnClickListener() {
 			
-			player = MediaPlayer.create(MainActivity.this,R.raw.ccode);
-			player.start();
-			}
-			*/
-	
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
 				mSoundC.play();
+				
+			}
+		});
+        mbtnD.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
 				mSoundD.play();
-	}
-	};
-   
+			}
+		});
+        
 	
 	
 	
