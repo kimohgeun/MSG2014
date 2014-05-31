@@ -28,6 +28,16 @@
   android:configChanges="orientation|keyboardHidden"
   android:theme="@android:style/Theme.NoTitleBar"
   />
+        <activity android:name="CsActivity"></activity>
+        <activity android:name="Js1Activity"></activity>
+        <activity android:name="Js2Activity"></activity>
+        <activity android:name="Js3Activity"></activity>
+        <activity android:name="Js4Activity"></activity>
+        <activity android:name="Js5Activity"></activity>
+        <activity android:name="Js6Activity"></activity>
+        <activity android:name="Js7Activity"></activity>
+        <activity android:name="Js8Activity"></activity>
+        <activity android:name="Js9Activity"></activity>
     </application>
 
 </manifest>
