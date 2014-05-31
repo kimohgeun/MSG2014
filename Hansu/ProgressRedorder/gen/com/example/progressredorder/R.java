@@ -22,6 +22,7 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int jsjs=0x7f020001;
     }
     public static final class id {
         public static final int action_settings=0x7f080009;
@@ -34,6 +35,7 @@ public final class R {
         public static final int tvPlayStartPoint=0x7f080005;
         public static final int tvRecMaxPoint=0x7f080002;
         public static final int tvRecStartPoint=0x7f080001;
+		public static int codep;
     }
     public static final class layout {
         public static final int main=0x7f030000;
@@ -74,4 +76,5 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
     }
+	public static Object raw;
 }
