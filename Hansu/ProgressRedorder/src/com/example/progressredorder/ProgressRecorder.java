@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -20,20 +19,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-class Sound
-{
-	MediaPlayer mPlayer;
-
-	Sound(Context context,int id)
-	{
-		mPlayer = MediaPlayer.create(context,id);
-	}
-	void play()
-	{
-		mPlayer.seekTo(0);;
-		mPlayer.start();
-	}
-}
 public class ProgressRecorder extends Activity implements View.OnClickListener, OnCompletionListener
 {
 	
@@ -45,16 +30,25 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
   private static final int PLAY_PAUSE = 2;
   
   MediaRecorder mRecorder = null;
+    
   MediaPlayer mPlayer = null;
+    
   int mRecState = REC_STOP;
+  int mcodepState = PLAYING;
   int mPlayerState = PLAY_STOP;
   SeekBar mRecProgressBar, mPlayProgressBar;
-  Button mBtnStartRec, mBtnStartPlay, mBtnStopPlay,mcodep;
+  
+  Button mBtnStartRec, mBtnStartPlay, mBtnStopPlay;
   String mFilePath, mFileName = null;
   TextView mTvPlayMaxPoint;
-  Sound S1;
   int mCurRecTimeMs = 0;
   int mCurProgressTimeDisplay = 0;
+  
+  
+  MediaPlayer music = null;
+  
+
+ 
   
   // 녹음시 SeekBar처리
   Handler mProgressHandler = new Handler()
@@ -112,7 +106,13 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
     setContentView(R.layout.main);
     
     
-   
+    music = MediaPlayer.create(this, R.raw.dcode);
+	
+	music.setLooping(true);
+	
+
+    
+
     
     // 미디어 레코더 저장할 파일 생성
     mFilePath = "/sdcard/Download/";
@@ -125,25 +125,45 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
     mFileName = "/WJ"
 		+ timeStampFormat.format(new Date()).toString()
 		+ "Rec.mp4";
-    mcodep = (Button) findViewById(R.id.codep);
     mBtnStartRec = (Button) findViewById(R.id.btnStartRec);
     mBtnStartPlay = (Button) findViewById(R.id.btnStartPlay);
     mBtnStopPlay = (Button) findViewById(R.id.btnStopPlay);
     mRecProgressBar = (SeekBar) findViewById(R.id.recProgressBar);
     mPlayProgressBar = (SeekBar) findViewById(R.id.playProgressBar);
     mTvPlayMaxPoint = (TextView) findViewById(R.id.tvPlayMaxPoint);
-    
    
-    S1 = new Sound(this,R.raw.jsjsjsjs);
+    
+    music = MediaPlayer.create(this, R.raw.dcode);
+   
     
     mBtnStartRec.setOnClickListener(this);
     mBtnStartPlay.setOnClickListener(this);
     mBtnStopPlay.setOnClickListener(this);
-    mcodep.setOnClickListener(this);
     
   }
 
 	
+  public void Thread(){
+		Runnable task = new Runnable(){
+			public void run(){
+			
+				while(music.isPlaying()){
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				}
+			}
+		};
+		Thread thread = new Thread(task);
+		thread.start();
+	}
+
+
+
   
   // 버튼의 OnClick 이벤트 리스너 
   public void onClick(View v)
@@ -152,6 +172,7 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
     {
       case R.id.btnStartRec:
         mBtnStartRecOnClick();
+        
         break;
       case R.id.btnStartPlay:
         mBtnStartPlayOnClick();
@@ -159,33 +180,30 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
       case R.id.btnStopPlay:
         mBtnStopPlayOnClick();
         break;
+     
       default:
         break;
     }
   }
   
+
   private void mBtnStartRecOnClick()
   {
     if (mRecState == REC_STOP)
     {
       mRecState = RECORDING;
       startRec();
+      music.start();
       updateUI();
     }
     else if (mRecState == RECORDING)
     {
       mRecState = REC_STOP;
       stopRec();
+      music.stop();
       updateUI();
     }
   }
-  
-  private void mcodepOnClick()
-  {
-   S1.play();
-  }
-  
-  
   
   // 녹음시작
   private void startRec()
@@ -270,6 +288,7 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
       updateUI();
     }
   }
+  
   private void mBtnStopPlayOnClick()
   {
     if (mPlayerState == PLAYING || mPlayerState == PLAY_PAUSE)
@@ -280,7 +299,6 @@ public class ProgressRecorder extends Activity implements View.OnClickListener, 
       updateUI();      
     }
   }
-  
   private void initMediaPlayer()
   {
     // 미디어 플레이어 생성
